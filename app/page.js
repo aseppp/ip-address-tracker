@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { Rubik } from 'next/font/google';
 import Image from 'next/image';
 import { BiSearchAlt } from 'react-icons/bi';
-import Map from '@/components/Map';
+import dynamic from 'next/dynamic';
 import Info from '@/components/Info';
 import useSwr from 'swr';
 
@@ -16,6 +16,7 @@ const rubik = Rubik({
 
 export default function Home() {
   const [param, setParam] = useState(null);
+
   const fetcher = (...args) => fetch(...args).then((res) => res.json());
   const { data } = useSwr(
     param
@@ -24,7 +25,9 @@ export default function Home() {
     fetcher
   );
 
-  console.log(data);
+  const MapWithNoSSR = dynamic(() => import('@/components/Map'), {
+    ssr: false,
+  });
 
   return (
     <main className={`${rubik.variable} font-sans`}>
@@ -66,9 +69,8 @@ export default function Home() {
           />
         </div>
       </div>
-
-      <div>
-        <Map />
+      <div className='m-0 p-0 h-screen'>
+        <MapWithNoSSR />
       </div>
     </main>
   );
