@@ -1,91 +1,52 @@
-import Image from 'next/image'
-import { Inter } from 'next/font/google'
-import styles from './page.module.css'
+import React from 'react';
+import { Rubik } from 'next/font/google';
+import Image from 'next/image';
+import { MdKeyboardArrowRight } from 'react-icons/md';
+import Map from '@/components/Map';
 
-const inter = Inter({ subsets: ['latin'] })
+const rubik = Rubik({
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700', '800'],
+  variable: '--font-rubik',
+});
 
 export default function Home() {
   return (
-    <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>app/page.js</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
-      </div>
-
-      <div className={styles.center}>
+    <main className={`${rubik.variable} font-sans`}>
+      <div className='relative'>
         <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
+          src='/pattern-bg-desktop.png'
+          alt='bg'
+          width={500}
+          height={500}
+          className='w-full h-64 md:h-72'
         />
-        <div className={styles.thirteen}>
-          <Image src="/thirteen.svg" alt="13" width={40} height={31} priority />
+
+        <div className='absolute top-0 right-0 left-0 w-96 m-auto'>
+          <h1 className='text-3xl text-center mb-10 mt-5 text-gray-100 font-medium'>
+            IP Address Traker
+          </h1>
+
+          <div className='flex mx-3'>
+            <input
+              type='text'
+              placeholder='Search for any ip address or domain'
+              className='py-3 px-4 rounded-l-lg w-full '
+            />
+            <button className='bg-black rounded-r-lg p-3'>
+              <MdKeyboardArrowRight size='1.5em' color='white' />
+            </button>
+          </div>
+        </div>
+
+        <div className='rounded-xl shadow-xl p-5 top-0 mt-40 md:mt-56 absolute left-0 right-0 mx-3 md:m-auto md:w-info h-36 bg-gray-100'>
+          <h1>Info</h1>
         </div>
       </div>
 
-      <div className={styles.grid}>
-        <a
-          href="https://beta.nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={inter.className}>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p className={inter.className}>
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={inter.className}>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p className={inter.className}>Explore the Next.js 13 playground.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={inter.className}>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p className={inter.className}>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
+      <div>
+        <Map />
       </div>
     </main>
-  )
+  );
 }
