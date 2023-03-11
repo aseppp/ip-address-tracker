@@ -1,8 +1,12 @@
+'use client';
+
 import React from 'react';
 import { Rubik } from 'next/font/google';
 import Image from 'next/image';
 import { MdKeyboardArrowRight } from 'react-icons/md';
 import Map from '@/components/Map';
+import Info from '@/components/Info';
+import useSwr from 'swr';
 
 const rubik = Rubik({
   subsets: ['latin'],
@@ -11,6 +15,13 @@ const rubik = Rubik({
 });
 
 export default function Home() {
+  const fetcher = (...args) => fetch(...args).then((res) => res.json());
+  const { data } = useSwr(
+    `https://geo.ipify.org/api/v2/country,city?apiKey=${process.env.API_KEY}&ipAddress=8.8.8.8`,
+    fetcher
+  );
+
+  console.log(data);
   return (
     <main className={`${rubik.variable} font-sans`}>
       <div className='relative'>
@@ -39,8 +50,8 @@ export default function Home() {
           </div>
         </div>
 
-        <div className='rounded-xl shadow-xl p-5 top-0 mt-40 md:mt-56 absolute left-0 right-0 mx-3 md:m-auto md:w-info h-36 bg-gray-100'>
-          <h1>Info</h1>
+        <div className='rounded-xl shadow-xl p-5 top-0 mt-40 md:mt-60 absolute left-0 right-0 mx-3 md:m-auto md:w-info bg-gray-100'>
+          <Info />
         </div>
       </div>
 

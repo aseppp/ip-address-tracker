@@ -1,5 +1,3 @@
-// const { fontFamily } = require('tailwindcss/defaultTheme');
-
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
@@ -17,6 +15,10 @@ module.exports = {
       },
       width: {
         info: '1000px',
+      },
+      colors: {
+        grayy: 'hsl(0, 0%, 59%)',
+        darkGray: 'hsl(0, 0%, 17%)',
       },
     },
   },
