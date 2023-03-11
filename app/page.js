@@ -1,9 +1,9 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Rubik } from 'next/font/google';
 import Image from 'next/image';
-import { MdKeyboardArrowRight } from 'react-icons/md';
+import { BiSearchAlt } from 'react-icons/bi';
 import Map from '@/components/Map';
 import Info from '@/components/Info';
 import useSwr from 'swr';
@@ -15,13 +15,17 @@ const rubik = Rubik({
 });
 
 export default function Home() {
+  const [param, setParam] = useState(null);
   const fetcher = (...args) => fetch(...args).then((res) => res.json());
   const { data } = useSwr(
-    `https://geo.ipify.org/api/v2/country,city?apiKey=${process.env.API_KEY}&ipAddress=8.8.8.8`,
+    param
+      ? `${process.env.BASE_URL}${process.env.API_KEY}&ipAddress=${param}`
+      : null,
     fetcher
   );
 
   console.log(data);
+
   return (
     <main className={`${rubik.variable} font-sans`}>
       <div className='relative'>
@@ -42,10 +46,11 @@ export default function Home() {
             <input
               type='text'
               placeholder='Search for any ip address or domain'
-              className='py-3 px-4 rounded-l-lg w-full '
+              className='py-3 px-4 rounded-l-lg w-full focus:ring-none focus:outline-none focus:border-none'
+              onChange={(e) => setParam(e.target.value)}
             />
-            <button className='bg-black rounded-r-lg p-3'>
-              <MdKeyboardArrowRight size='1.5em' color='white' />
+            <button disabled className='bg-black rounded-r-lg p-3'>
+              <BiSearchAlt size='1.5em' color='white' />
             </button>
           </div>
         </div>
