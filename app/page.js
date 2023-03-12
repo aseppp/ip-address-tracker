@@ -32,7 +32,7 @@ export default function Home() {
 
   useEffect(() => {
     if (data) {
-      setLocation([data.location.lat, data.location.lng]);
+      setLocation([data?.location?.lat, data?.location?.lng]);
     }
   }, [data, setLocation]);
 
