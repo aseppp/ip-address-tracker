@@ -7,6 +7,7 @@ import { BiSearchAlt } from 'react-icons/bi';
 import dynamic from 'next/dynamic';
 import Info from '@/components/Info';
 import useSwr from 'swr';
+import { useForm } from 'react-hook-form';
 
 const rubik = Rubik({
   subsets: ['latin'],
@@ -15,20 +16,23 @@ const rubik = Rubik({
 });
 
 export default function Home() {
-  const [param, setParam] = useState(null);
-  const [location, setLocation] = useState([51.505, -0.09]);
-
-  const fetcher = (...args) => fetch(...args).then((res) => res.json());
-  const { data } = useSwr(
-    param
-      ? `${process.env.BASE_URL}${process.env.API_KEY}&ipAddress=${param}`
-      : null,
-    fetcher
-  );
-
   const MapWithNoSSR = dynamic(() => import('@/components/Map'), {
     ssr: false,
   });
+
+  const [param, setParam] = useState('8.8.8.8');
+  const [location, setLocation] = useState([51.505, -0.09]);
+  const { register, watch, handleSubmit } = useForm();
+
+  const onSubmit = () => {
+    setParam(watch('ip'));
+  };
+
+  const fetcher = (...args) => fetch(...args).then((res) => res.json());
+  const { data, isLoading } = useSwr(
+    `${process.env.BASE_URL}${process.env.API_KEY}&ipAddress=${param}`,
+    fetcher
+  );
 
   useEffect(() => {
     if (data) {
@@ -48,21 +52,27 @@ export default function Home() {
         />
 
         <div className='absolute top-0 right-0 left-0 w-96 m-auto '>
-          <h1 className='text-3xl text-center mb-10 mt-5 text-gray-100 font-medium'>
+          <h1 className='text-3xl text-center mb-5 mt-5 md:mb-5 md:mt-16 text-gray-100 font-medium'>
             IP Address Traker
           </h1>
 
-          <div className='flex mx-3'>
-            <input
-              type='text'
-              placeholder='Search for any ip address or domain'
-              className='py-3 px-4 rounded-l-lg w-full focus:ring-none focus:outline-none focus:border-none'
-              onChange={(e) => setParam(e.target.value)}
-            />
-            <button disabled className='bg-black rounded-r-lg p-3'>
-              <BiSearchAlt size='1.5em' color='white' />
-            </button>
-          </div>
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <div className='flex mx-4'>
+              <input
+                {...register('ip')}
+                type='text'
+                placeholder='Search for any ip address or domain'
+                className='py-3 px-4 rounded-l-lg w-full focus:ring-none focus:outline-none focus:border-none'
+              />
+              <button type='submit' className='bg-black rounded-r-lg p-3'>
+                <BiSearchAlt size='1.5em' color='white' />
+              </button>
+            </div>
+
+            <h1 className='mx-3 my-2 text-gray-100'>
+              {isLoading ? 'Loading ...' : null}
+            </h1>
+          </form>
         </div>
 
         <div className='rounded-xl shadow-xl p-5 top-0 mt-40 md:mt-60 absolute left-0 right-0 mx-3 md:m-auto md:w-info bg-gray-100 z-30'>
