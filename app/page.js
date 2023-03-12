@@ -68,8 +68,8 @@ export default function Home() {
         <div className='rounded-xl shadow-xl p-5 top-0 mt-40 md:mt-60 absolute left-0 right-0 mx-3 md:m-auto md:w-info bg-gray-100 z-30'>
           <Info
             ip={data?.ip || 'No Data'}
-            city={data?.location.city || 'No Data'}
-            region={data?.location.region}
+            city={data?.location?.city || 'No Data'}
+            region={data?.location?.region}
             postal={data?.location?.postalCode}
             timezone={data?.location?.timezone || 'No Data'}
             isp={data?.isp || 'No Data'}
