@@ -17,7 +17,6 @@ const rubik = Rubik({
 export default function Home() {
   const [param, setParam] = useState(null);
   const [location, setLocation] = useState([51.505, -0.09]);
-  console.log(location);
 
   const fetcher = (...args) => fetch(...args).then((res) => res.json());
   const { data } = useSwr(
