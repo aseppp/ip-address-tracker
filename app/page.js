@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Rubik } from 'next/font/google';
 import Image from 'next/image';
 import { BiSearchAlt } from 'react-icons/bi';
@@ -16,6 +16,8 @@ const rubik = Rubik({
 
 export default function Home() {
   const [param, setParam] = useState(null);
+  const [location, setLocation] = useState([51.505, -0.09]);
+  console.log(location);
 
   const fetcher = (...args) => fetch(...args).then((res) => res.json());
   const { data } = useSwr(
@@ -29,6 +31,12 @@ export default function Home() {
     ssr: false,
   });
 
+  useEffect(() => {
+    if (data) {
+      setLocation([data.location.lat, data.location.lng]);
+    }
+  }, [data, setLocation]);
+
   return (
     <main className={`${rubik.variable} font-sans`}>
       <div className='relative'>
@@ -40,7 +48,7 @@ export default function Home() {
           className='w-full h-64 md:h-72'
         />
 
-        <div className='absolute top-0 right-0 left-0 w-96 m-auto'>
+        <div className='absolute top-0 right-0 left-0 w-96 m-auto '>
           <h1 className='text-3xl text-center mb-10 mt-5 text-gray-100 font-medium'>
             IP Address Traker
           </h1>
@@ -58,7 +66,7 @@ export default function Home() {
           </div>
         </div>
 
-        <div className='rounded-xl shadow-xl p-5 top-0 mt-40 md:mt-60 absolute left-0 right-0 mx-3 md:m-auto md:w-info bg-gray-100'>
+        <div className='rounded-xl shadow-xl p-5 top-0 mt-40 md:mt-60 absolute left-0 right-0 mx-3 md:m-auto md:w-info bg-gray-100 z-30'>
           <Info
             ip={data?.ip || 'No Data'}
             city={data?.location.city || 'No Data'}
@@ -69,8 +77,9 @@ export default function Home() {
           />
         </div>
       </div>
-      <div className='m-0 p-0 h-screen'>
-        <MapWithNoSSR />
+
+      <div className='m-0 p-0 h-map absolute w-full z-10'>
+        <MapWithNoSSR location={location} popup={data?.isp} />
       </div>
     </main>
   );

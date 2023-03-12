@@ -16,6 +16,9 @@ module.exports = {
       width: {
         info: '1000px',
       },
+      height: {
+        map: '70vh',
+      },
       colors: {
         grayy: 'hsl(0, 0%, 59%)',
         darkGray: 'hsl(0, 0%, 17%)',

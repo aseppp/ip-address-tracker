@@ -3,12 +3,12 @@ import 'leaflet/dist/leaflet.css';
 import 'leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css';
 import 'leaflet-defaulticon-compatibility';
 
-const Map = () => {
+const Map = ({ location, popup }) => {
   return (
     <MapContainer
-      center={[40.8054, -74.0241]}
+      center={location}
       zoom={14}
-      scrollWheelZoom={false}
+      scrollWheelZoom={true}
       style={{ height: '100%', width: '100%' }}
     >
       <TileLayer
@@ -16,8 +16,8 @@ const Map = () => {
         url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
       />
 
-      <Marker position={[40.8054, -74.0241]} draggable={true} animate={true}>
-        <Popup>Hey ! I live here</Popup>
+      <Marker position={location} draggable={true} animate={true}>
+        <Popup>{popup}</Popup>
       </Marker>
     </MapContainer>
   );
